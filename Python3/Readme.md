@@ -14,7 +14,7 @@
 + 兼容性产生的问题  
   * 使用 \__future__ 模块将新版本里的功能反向迁移到旧版本当中，具体有 division, absolute\_import, print\_function, unicode\_literals
 
-** 标准库中也有很多变化 **
+**标准库中也有很多变化**
 
 
 ### 使用环境隔离非常重要
