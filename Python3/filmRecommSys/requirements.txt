@@ -1,0 +1,10 @@
+django==1.8.18
+djangorestframework==3.7.0
+django-rest-swagger==2.1.2
+django-json-field==0.5.7
+numpy==1.13.3
+nltk
+pandas
+beautifulsoup4
+scipy
+scikit-learn
