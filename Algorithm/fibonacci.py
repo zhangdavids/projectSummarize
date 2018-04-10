@@ -10,10 +10,12 @@ def F(n):
     elif n == 1: return 1
     else: return F(n-1)+F(n-2)
 
+
 # 数学公式
 from math import sqrt
 def f(n):
     return ((1+sqrt(5))**n-(1-sqrt(5))**n)/(2**n*sqrt(5))
+
 
 # 生成器语法
 def fib():
@@ -22,12 +24,14 @@ def fib():
         yield a
         a, b = b, a + b
 
+
 ## Using looping technique
 def fibon(n):
     a, b = 1, 1
     for i in range(n - 1):
         a, b = b, a + b
     return a
+
 
 # Using memoization
 def memoize(fn, arg):
