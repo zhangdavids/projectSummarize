@@ -1,0 +1,23 @@
+
+
+Get it right.
+Test it's right.
+Profile if slow.
+Optimise.
+Repeat from 2.
+
+
+1.首先是数据结构的选择  要选对的
+
+2 sorting
+
+字符串的连接  选择？
+
+slist = [some_function(elt) for elt in somelist]
+s = "".join(slist)
+
+
+列表推导式 还有字典的
+
+
+
