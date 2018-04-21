@@ -1,5 +1,64 @@
 ## 如何才是一个高级 python 程序员  
 
+对python的理解划分
+
+### python 语言基础
+python文件是如何运行的
+
+python的数据结构有哪些
+tuple list dict
+
+模块和函数
+
+字符串
+
+正则
+
+处理文件
+
+面向对象编程
+
+异常处理以及程序调试
+
+数据库编程  常用mysql数据库 
+
+### GUI开发
+
+tkinter
+
+### web开发
+
+涉及到html xml相关知识
+
+django flask 框架
+
+### 其他应用
+
+测试驱动开发 TDD
+
+并发处理 线程 进程 协程
+
+python 的系统管理
+
+增强式的交互环境
+
+网络编程
+
+常见的网络应用
+
++ ftp
++ http
++ 获取发送邮件
++ telnet远程登录
++ snmp管理网络
++ 网络分析
+
+图像处理
+
+语言扩展
+
+
+
 
 ###  先谈一谈 python2 和 python3 的差异  
 
