@@ -1,4 +1,26 @@
+### javascript是什么？
 
+  它是一门基于客户端的脚本语言，是相对于服务器而言，浏览器就是一个客户端软件，浏览器从服务器上将资源（html,css,js,图片等）请求下来 并且在本地利用浏览器去解析这些资源服务器本质上也是一台电脑。用来接收客户端发过来的请求，并处理请求。同时存储数据 读取数据等操作
+  
+  
++ ECMAscript JavaScript的核心，描述了语言的基本语法和数据类型，ECMAScript是一套标准，定义了一种语言的标准与具体实现无关
++ DOM（document object model 文档对象模型）一套操作页面元素的API
++ BOM（browser object model 浏览器对象模型）一套操作浏览器功能的API
+
+#### 七大数据类型
+
+基本数据类型（简单数据类型）
+
+* number 数值型
+* string 字符串
+* boolean 布尔型
+* undefined 未定义
+* null 空引用
+
+引用数据类型（复杂数据类型）
+
+* object
+* Array
 
 ### es6 常用特性
 
