@@ -41,7 +41,7 @@ class LinkedList(object):
             curr = curr.get_next_node()
             
             
-  my_list = LinkedList()
+my_list = LinkedList()
 my_list.add_node(2)
 my_list.add_node(4)
 my_list.add_node(3)
