@@ -1,0 +1,17 @@
+
+
+
+项目相关js库列表：
+
+webpack ： js开发环境和打包器
+babel ： es6 编译器
+react ： 当下非常火的显示框架
+react-router ： 与react搭配的前端路由器
+redux ： web应用的状态容器（定义了一套非常清晰的数据传递 流程）
+react-redux ： react 和 redux 的连接器
+redux-logger ： redux 的控制台 log 中间件
+redux-thunk： redux 的 thunk 中间件
+react-router-redux : react-router和 redux 配套使用的连接器
+immutable.js: js 持久化数据框架
+mock.js ： 用于产生模拟后台数据的框架
+jquery: 在项目中，我们仅使用它的非常通行的 ajax 功能
