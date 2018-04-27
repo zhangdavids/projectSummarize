@@ -214,45 +214,419 @@ class Solution:
 
 11.和为S的连续正数序列
 
+```
+class Solution:
+    def FindContinuousSequence(self, tsum):
+        # write code here
+        k = 2
+        ret = []
+        for k in range(2,tsum):
+            if k%2==1 and tsum%k==0:
+                tmp = []
+                mid = tsum/k
+                if mid-k/2>0:
+                    for i in range(mid-k/2,mid+k/2+1):
+                        tmp.append(i)
+                    ret.append(tmp[:])
+            elif k%2==0 and (tsum%k)*2==k:
+                mid = tsum/k
+                tmp = []
+                if mid-k/2+1>0:
+                    for i in range(mid-k/2+1,mid+k/2+1):
+                        tmp.append(i)
+                    ret.append(tmp[:])
+        ret.sort()
+        return ret
+```
+
 12.左旋转字符串
+
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def LeftRotateString(self, s, n):
+        # write code here
+        if s == '':
+            return s
+        n = n%len(s)
+        return s[n:]+s[0:n]
+```
 
 13.数字在排序数组中出现的次数
 
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def GetNumberOfK(self, data, k):
+        # write code here
+        start = 0
+        end = len(data)-1
+        while(start<=end):
+            mid = (start+end)/2
+            if data[mid]==k:
+                cnt = 0
+                tmp = mid
+                while(tmp>=0 and data[tmp]==k):
+                    cnt+=1
+                    tmp-=1
+                tmp = mid+1
+                while(tmp<len(data) and data[tmp]==k):
+                    cnt+=1
+                    tmp+=1
+                return cnt
+            elif data[mid]>k:
+                end = mid-1
+            else:
+                start = mid+1
+        return 0
+```
+
 14.数组中只出现一次的数字
+
+```
+class Solution:
+    # 返回[a,b] 其中ab是出现一次的两个数字
+    def FindNumsAppearOnce(self, array):
+        # write code here
+        ans,a1,a2,flag= 0,0,0,1
+        for num in array:
+            ans = ans ^ num
+        while(ans):
+            if ans%2 == 0:
+                ans = ans >>1 
+                flag = flag <<1
+            else:
+                break
+        for num in array:
+            if num & flag:
+                a1 = a1 ^ num
+            else:
+                a2 = a2 ^ num
+        return a1,a2
+```
 
 15.翻转单词顺序列
 
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def ReverseSentence(self, s):
+        # write code here
+        ret = s.split(" ")
+        ret.reverse()
+        return ' '.join(ret)
+```
+
 16.二叉树的深度
+
+```
+class Solution:
+    def TreeDepth(self, pRoot):
+        # write code here
+        if pRoot == None:
+            return 0
+        if pRoot.left == None and pRoot.right==None:
+            return 1
+        return max(self.TreeDepth(pRoot.left),self.TreeDepth(pRoot.right))+1
+```
 
 17.和为S的两个数字
 
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def FindNumbersWithSum(self, array, tsum):
+        # write code here
+        memorys= {}
+        ret = []
+        for num in array:
+            if tsum-num in memorys:
+                if ret == []:
+                    ret = [tsum-num,num]
+                elif ret and ret[0]*ret[1]>(tsum-num)*num:
+                    ret = [tsum-num,num]
+            else:
+                memorys[num] = 1
+        return ret
+```
+
 18.顺时针打印矩阵
+
+```
+
+```
 
 19.二叉树的下一个结点
 
+```
+class Solution:
+    def GetNext(self, pNode):
+        # write code here
+        # left root right
+        if pNode == None:
+            return None
+        if pNode.right:
+            tmp = pNode.right
+            while(tmp.left):
+                tmp = tmp.left
+            return tmp
+        p = pNode.next
+        while(p and p.right==pNode):
+            pNode = p
+            p = p.next
+        return p
+```
+
 20.对称的二叉树
+
+```
+class Solution:
+    def Symmetrical(self,Lnode,Rnode):
+        if Lnode == None and Rnode == None:
+            return True
+        if Lnode and Rnode:
+            return Lnode.val == Rnode.val and self.Symmetrical(Lnode.right,Rnode.left) and self.Symmetrical(Lnode.left,Rnode.right)
+        else:
+            return False
+    def isSymmetrical(self, pRoot):
+        # write code here
+        if pRoot == None:
+            return True
+        return self.Symmetrical(pRoot.left,pRoot.right)
+```
 
 =======
 
 把二叉树打印成多行
 
+```
+class Solution:
+    # 返回二维列表[[1,2],[4,5]]
+    def Print(self, pRoot):
+        # write code here
+        if pRoot == None:
+            return []
+        stack = [pRoot]
+        ret = []
+
+        while(stack):
+            tmpstack = []
+            tmp = []
+            for node in stack:
+                tmp.append(node.val)
+                if node.left:
+                    tmpstack.append(node.left)
+                if node.right:
+                    tmpstack.append(node.right)
+            ret.append(tmp[:])
+            stack = tmpstack[:]
+        return ret
+```
+
 按之字形顺序打印二叉树
+
+```
+class Solution:
+    def Print(self, pRoot):
+        # write code here
+        if pRoot == None:
+            return []
+        stack = [pRoot]
+        step = 1
+        ret = []
+        while(stack):
+            tmpstack = []
+            tmp = []
+            for node in stack:
+                tmp+=[node.val]
+                if node.left:
+                    tmpstack.append(node.left)
+                if node.right:
+                    tmpstack.append(node.right)
+            if step%2==0:
+                tmp.reverse()
+            ret.append(tmp)
+            step += 1
+            stack = tmpstack[:]
+        return ret 
+```
 
 序列化二叉树
 
+```
+class Solution:
+    def Serialize(self, root):
+        # write code here
+        def doit(node):
+            if node:
+                vals.append(str(node.val))
+                doit(node.left)
+                doit(node.right)
+            else:
+                vals.append('#')
+        vals = []
+        doit(root)
+        return ' '.join(vals)
+
+    def Deserialize(self, s):
+        # write code here
+        def doit():
+            val = next(vals)
+            if val == '#':
+                return None
+            node = TreeNode(int(val))
+            node.left = doit()
+            node.right = doit()
+            return node
+        vals = iter(s.split())
+        return doit()
+```
+
 二叉搜索树的第k个结点
+
+
 
 数据流中的中位数
 
+```
+from heapq import *
+class MedianFinder:
+
+    def __init__(self):
+        self.heaps = [], []
+
+    def addNum(self, num):
+        small, large = self.heaps
+        heappush(small, -heappushpop(large, num))
+        if len(large) < len(small):
+            heappush(large, -heappop(small))
+
+    def findMedian(self):
+        small, large = self.heaps
+        if len(large) > len(small):
+            return float(large[0])
+        return (large[0] - small[0]) / 2.0
+```
+
 重建二叉树
+
+```
+class Solution(object):
+    def buildTree(self, pre, tin):
+        """
+        :type preorder: List[int]
+        :type inorder: List[int]
+        :rtype: TreeNode
+        """
+        if pre==[]:
+            return None
+        val = pre[0]
+        idx = tin.index(val)
+        ltin = tin[0:idx]
+        rtin = tin[idx+1:]
+        lpre = pre[1:1+len(ltin)]
+        rpre = pre[1+len(ltin):]
+        root = TreeNode(val)
+        root.left = self.buildTree(lpre,ltin)
+        root.right = self.buildTree(rpre,rtin)
+        return root
+```
 
 滑动窗口的最大值
 
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def maxInWindows(self, num, size):
+        # write code here
+        if size == 0:
+            return []
+        ret = []
+        stack = []
+        for pos in range(len(num)):
+            while (stack and stack[-1][0] < num[pos]):
+                stack.pop()
+            stack.append((num[pos], pos))
+            if pos>=size-1:
+                while(stack and stack[0][1]<=pos-size):
+                    stack.pop(0)
+                ret.append(stack[0][0])
+        return ret
+```
+
 用两个栈实现队列
+
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def __init__(self):
+        self.stack1 = []
+        self.stack2 = []
+    def push(self, node):
+        # write code here
+        self.stack1.append(node)
+
+    def pop(self):
+        # return xx
+        if len(self.stack2):
+            return self.stack2.pop()
+        while(self.stack1):
+            self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
+```
 
 旋转数组的最小数字
 
-丑数
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def minNumberInRotateArray(self, rotateArray):
+        # write code here
+        if rotateArray == []:
+            return 0
+        _len = len(rotateArray)
+        left = 0
+        right = _len - 1
+        while left <= right:
+            mid = int((left + right) >> 1)
+            if rotateArray[mid]<rotateArray[mid-1]:
+                return rotateArray[mid]
+            if rotateArray[mid] >= rotateArray[right]:
+                # 说明在【mid，right】之间
+                left = mid + 1
+            else:
+                # 说明在【left，mid】之间
+                right = mid - 1
+        return rotateArray[mid]
+```
+
+丑数(49)
+
+只包含因子2、3和5的数称作丑数（Ugly Number），求按从小到大的顺序的第N个丑数
+
+```
+# -*- coding:utf-8 -*-
+import heapq
+class Solution:
+    def GetUglyNumber_Solution(self, index):
+        # write code here
+        if index<1:
+            return 0
+        heaps = []
+        heapq.heappush(heaps,1)
+        lastnum = None
+        idx = 1
+        while(idx<=index):
+            curnum = heapq.heappop(heaps)
+            while(curnum==lastnum):
+                curnum = heapq.heappop(heaps)
+            lastnum = curnum
+            idx+=1
+            heapq.heappush(heaps,curnum*2)
+            heapq.heappush(heaps,curnum*3)
+            heapq.heappush(heaps,curnum*5)
+        return lastnum
+```
 
 =======
 
