@@ -1,11 +1,15 @@
 
 
-1.二叉树的镜像
+1.二叉树的镜像（第二版第27题）
 
 ```
 class Solution:
     # 返回镜像树的根节点
     def Mirror(self, root):
+        """
+        交换根节点的左右子树
+        交换节点值
+        """
         if root == None:
             return 
         self.Mirror(root.left)
@@ -13,7 +17,7 @@ class Solution:
         root.left,root.right = root.right,root.left
 ```
 
-2.链表中环的入口结点
+2.链表中环的入口结点（23）
 
 ```
 class Solution(object):
@@ -76,7 +80,7 @@ class Solution:
         return ret.next
 ```
 
-4.从尾到头打印链表
+4.从尾到头打印链表（6）
 
 ```
 class Solution:
@@ -92,7 +96,7 @@ class Solution:
         return ret
 ```
 
-5.斐波那契数列
+5.斐波那契数列（10）
 
 ```
 def fibonacci(n):
@@ -106,7 +110,7 @@ def fibonacci(n):
     return memories[-1]
 ```
 
-6.跳台阶
+6.跳台阶（10）
 
 ```
 def jump_floor(number):
@@ -124,7 +128,7 @@ def jump_floor(number):
     return dp[-1]
 ```
 
-7.变态跳台阶
+7.变态跳台阶（2**(n-1)）
 
 ```
 class Solution:
@@ -139,7 +143,7 @@ class Solution:
         return ret 
 ```
 
-8.矩形覆盖
+8.矩形覆盖(10)
 
 ```
 class Solution:
@@ -154,7 +158,7 @@ class Solution:
         return dp[-1]
 ```
 
-9.把字符串转换成整数
+9.把字符串转换成整数(67)
 
 ```
 class Solution:
@@ -188,6 +192,9 @@ class Solution:
 ```
 class Solution:
     def Treeheight(self,pRoot):
+        """
+        二叉树的深度
+        """
         if pRoot == None:
             return 0
         if pRoot.left == None and pRoot.right == None:
@@ -197,8 +204,8 @@ class Solution:
         return max(rh,lh)+1
 
     def IsBalanced_Solution(self, pRoot):
-        # write code here
-        if pRoot == None:
+        # write code here  之差的绝对值小于等于1
+        if pRoot == None:
             return True
         return abs(self.Treeheight(pRoot.left)-self.Treeheight(pRoot.right))<=1
 ```
