@@ -359,13 +359,96 @@ class Url(object):
 + 观察者
 
 ```
-pass
+"""
+用于通知列表中的对象关于被观察者组件的状态变化
+"""
+
+class Event(object):
+    _observers = []
+    
+    def __init__(self, subject):
+        self.subject = subject
+    
+    @classmethod
+    def register(cls, observer):
+        if observer not in cls._observers:
+            cls._observers.append(observer)
+            
+    @classmethod
+    def unregister(cls, observer):
+        if observer in cls._observers:
+            cls._observers.remove(observer)
+            
+    @classmethod
+    def notify(cls, subject):
+        event = cls(subject)
+        for observer in cls._observers:
+            observer(event)
+            
+            
+class WriteEvent(Event):
+    def __repr__(self):
+        return "WriteEvent"
+        
+        
+def log(event):
+    print(
+        '{!r} was fired with subject "{}"'
+        ''.format(event, event.subject)
+    )
+        
+        
+class AnotherObserver(object):
+    def __call__(self, event):
+        print(
+            "{!r} trigerred {}'s action"
+            ''.format(event, self.__class__.__name__)
+        )
+        
+        
+def main():
+    WriteEvent.register(log)
+    WriteEvent.register(AnotherObserver())
+    WriteEvent.notify("something good happened")
+    
+
+if __name__ == "__main__":
+    main()    
+    
 ```
 
 + 访问者
 
 ```
-pass
+class Printer(object):
+    def visit_list(self, instance):
+        print('list content: {}'.format(instance))
+
+    def visit_dict(self, instance):
+        print('dict keys: {}'.format(', '.join(instance.keys())))
+
+
+def visit(visited, visitor):
+    cls = visited.__class__.__name__
+    method_name = "visit_%s" % cls
+    method = getattr(visitor, method_name, None)
+    if isinstance(method, callable):
+        method(visited)
+    else:
+        raise AttributeError(
+            "No suitable '{}' method in visitor"
+            "".format(method_name)
+        )
+
+
+def main():
+    visit([1,2,3], Printer())
+    visit({'one': 1, 'two': 2, 'three': 3}, Printer())
+    visit((1,2,3), Printer())
+
+if __name__ == "__main__":
+    main()
+
 ```
 
 + 模板
