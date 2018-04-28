@@ -457,7 +457,77 @@ if __name__ == "__main__":
 + 模板
 
 ```
-pass
+# coding: utf-8
+from collections import Counter
+
+
+class Indexer(object):
+    """
+    文本规范化
+    文本拆分
+    去停用词
+    抽取词干
+    词频
+    """
+    def _normalize_text(self, text):
+        return text.lower().strip()
+
+    def _split_text(self, text):
+        return text.split()
+
+    def _remove_stop_words(self, words):
+        raise NotImplementedError
+
+    def _stem_words(self, words):
+        raise NotImplementedError
+
+    def _frequency(self, words):
+        return Counter(words)
+
+    def process(self, text):
+        text = self._normalize_text(text)
+        words = self._split_text(text)
+        words = self._remove_stop_words(words)
+        stemmed_words = self._stem_words(words)
+
+        return self._frequency(stemmed_words)
+
+
+class BasicIndexer(Indexer):
+    _stop_words = {'she', 'he', 'is', 'and', 'or', 'the'}
+
+    def _remove_stop_words(self, words):
+        return (
+            word for word in words
+            if word not in self._stop_words
+        )
+
+    def _stem_words(self, words):
+        return (
+            (
+                len(word) > 3 and
+                word.rstrip('aeiouy') or
+                word
+            )
+            for word in words
+        )
+
+
+def main():
+    indexer = BasicIndexer()
+    print(indexer.process("John is good at playing football and \n The breath I've taken and the one I must to go on"))
+
+
+if __name__ == '__main__':
+    main()
+    
+    
+# which get 
+# Counter({"i'v": 1, 'good': 1, 'on': 1, 'i': 1, 'football': 1, 'one': 1, 'breath': 1, 'to': 1, 'at': 1, 'go': 1, 'taken': 1, 'john': 1, 'playing': 1, 'must': 1})
+
+
+# 模板通过定义抽象步骤来帮助设计一个通用的算法 抽象步骤由子类来实现
+
 ```
 
 
