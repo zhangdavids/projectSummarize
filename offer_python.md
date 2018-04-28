@@ -696,6 +696,43 @@ class Solution:
 
 60.数值的整数次方
 
+```
+"""
+指数要考虑正数 负数 0
+再就是正整数考虑基数和偶数 
+"""
+def power_common(base, exponent):
+    exp = abs(exponent)
+    ans = 1.0
+    for i in range(0, exp):
+        ans = ans * base
+    return ans
+        
+def power_fast(base, exponent):
+    result = power_common(base, exponent >> 1)
+    if exponent & 1:
+        return result * result * base
+    else:
+        return result * result
+        
+def power(base, exponent):
+    if exponent == 0:
+        return 1
+    ans = power_fast(base, exponent)
+    if exponent > 0:
+        return ans
+    else:
+        return 1 / ans
+    
+        
+def main():
+    print(power(2, 9))
+
+
+if __name__ == '__main__':
+    main()
+```
+
 =======
 
 61.调整数组顺序使奇数位于偶数前面
@@ -739,6 +776,6 @@ def memoize(function):
     
 ```
 
-实现这个记忆化的装饰器可以对比如斐波那契额数列 杨辉三角等递归的 确定性递归 进行缓存
-```
+实现这个记忆化的装饰器可以对比如斐波那契数列 杨辉三角等递归的 确定性递归 进行缓存
+
 
