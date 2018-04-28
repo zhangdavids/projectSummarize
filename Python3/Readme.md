@@ -169,8 +169,23 @@ super（）函数，python2 的工作原理几乎完全相同，调用签名的�
 
 **理解 python 方法的解析顺序**  
 
+\__mor__
+
+旧式类是深度优先
+
+*新式类是广度优先（挑选最接近的祖先的方法），C3序列化*
+
+
 
 描述符  
+
+基于三个特殊方法
+
+```
+__set__()
+__get__()
+__delete__()
+```
 
 property 提供了一个内置的描述符类型，它知道如何将一个属性链接到一组方法上。  
 
@@ -178,7 +193,187 @@ property 提供了一个内置的描述符类型，它知道如何将一个属�
 
 允许使用\__slots__属性来指定的类设置一个静态属性列表。  
 
-待续...
+
+### 代码的管理
+
+github 或者 是自建的 gitlab
+
+github 工作流
+
+需要持续集成（测试每一个提交）
+
+持续交付 
+
+
+### 项目文档化
+
+** 文档和代码一样重要 **
+
+### 代码优化
+
+三个规则
+
++ 首先要能工作
++ 从用户的角度考虑
++ 保存代码的可读性和可维护性
+
+查找瓶颈
+
++ cpu
++ 内存
++ 网络使用情况
+
+** 如何降低复杂度 **
+
+使用内置的集合模块
+
++ deque
++ defaultdict
++ namedtuple
+
+架构体系的权衡
+
++ 使用任务队列 celery 等
++ 使用概率型数据结构
+
+
+缓存
+
++ 确定型缓存
++ 非确定型缓存
++ 缓存服务
+
+### 并发
+
+
+多线程 适合于 IO 密集任务
+多进程 适合于 CPU 密集任务
+
+
+python 创始人 不建议使用 gevent 因为使用了 猴子补丁
+
+在3.5版本之后 对异步编程有着重要的支持 asyncio
+
+```python3.5
+import time
+import asyncio
+import random
+
+#  协程函数
+async def waiter(name):
+    for _ in range(4):
+        time_to_sleep = random.randint(1, 3) / 4
+        await asyncio.sleep(time_to_sleep)
+        print(
+            "{} waited {} seconds"
+            "".format(name, time_to_sleep)
+        )
+        
+# await 关键字 用于等待协程或者未来的结果并释放对事件循环的执行控制        
+async def main():
+    await asyncio.wait([waiter('foo'), waiter('bar')])
+    
+    
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    loop.close()
+```
+
+
+### python 当中常用的设计模式
+
+创建型 生成具有特定行为的对象
+
++ 工厂设计模式
++ 单例
+
+结构型 为特定的用例构建代码
+
++ 适配器
+
+```
+from os.path import split, splitext
+
+
+class CoreAdapter(object):
+    def __init__(self, filename):
+        self._filename = filename
+        
+    @property
+    def title(self):
+        return splitext(split(self._filename)[-1])[0]
+        
+    @property
+    def languages(self):
+        return ("cn",)
+        
+    def __getitem__(self, item):
+        return getattr(self, item, "Unknown")
+        
+        
+class CoreInfo(object):
+    def summary(self, dc_dict):
+        print("Title: %s" % dc_dict['title'])
+        print("Languages: %s" % ", ".join(dc_dict['languages']))
+        print("Creator: %s" % dc_dict['creator'])
+        
+        
+def main():
+    adapted = CoreAdapter('example.txt')
+    infos = CoreInfo()
+    infos.summary(adapted)
+    
+    
+if __name__ == "__main__":
+    main()
+```
+
++ 外观
+
+```
+# 提供对子系统的高层次简单地访问
+
+```
+
++ 代理
+
+```
+# 提供对昂贵或者远程资源的访问
+# 另外的使用范例是数据唯一性
+
+class Url(object):
+    def __init__(self, location):
+        self._url = urlopen(location)
+        
+    def headers(self):
+        return dict(self._url.headers.items())
+        
+    def get(self):
+        return self._url.read()        
+
+```
+
+行为模式 分配责任和封装行为
+
++ 观察者
+
+```
+pass
+```
+
++ 访问者
+
+```
+pass
+```
+
++ 模板
+
+```
+pass
+```
+
 
 
 
