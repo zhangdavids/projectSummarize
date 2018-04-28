@@ -420,6 +420,9 @@ if __name__ == "__main__":
 + 访问者
 
 ```
+from collections import Callable
+
+
 class Printer(object):
     def visit_list(self, instance):
         print('list content: {}'.format(instance))
@@ -432,7 +435,7 @@ def visit(visited, visitor):
     cls = visited.__class__.__name__
     method_name = "visit_%s" % cls
     method = getattr(visitor, method_name, None)
-    if isinstance(method, callable):
+    if isinstance(method, Callable):
         method(visited)
     else:
         raise AttributeError(
