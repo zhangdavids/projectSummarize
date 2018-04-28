@@ -630,7 +630,7 @@ class Solution:
         return lastnum
 ```
 
-=======
+**********************
 
 31.两个链表的第一个公共结点
 
@@ -718,4 +718,27 @@ class Solution:
 67.电梯算法
 
 68.天平称出N个球中一个异常重量的球
+
+69.装饰器实现记忆化
+
+```python3.6
+from functools import wraps
+
+
+def memoize(function):
+    @wraps(function)
+    call_cache = {}
+    
+    def memoized(argument):
+        tyr:
+            return call_cache[argument]
+        except KeyError:
+            return calll_cache.setdefault(argument, function(argument)
+            
+    return memoized
+    
+```
+
+实现这个记忆化的装饰器可以对比如斐波那契额数列 杨辉三角等递归的 确定性递归 进行缓存
+```
 
