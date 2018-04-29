@@ -1,9 +1,11 @@
+## 说明 按照一些提交标准 需要构建Solution 的类 python2 当中不显示继承 是旧式类
+## 新式类 显示继承需要加上(object)  python3 类有共同祖先object 可以隐式继承
 
 
-1.二叉树的镜像（第二版第27题）
+1.二叉树的镜像（第二版第27题，递归）
 
 ```
-class Solution:
+class Solution(object):
     # 返回镜像树的根节点
     def Mirror(self, root):
         """
@@ -634,43 +636,333 @@ class Solution:
 
 31.两个链表的第一个公共结点
 
+```
+class Solution:
+    def FindFirstCommonNode(self, pHead1, pHead2):
+        # write code here
+        if pHead1== None or pHead2 == None:
+            return None
+        pa = pHead1
+        pb = pHead2 
+        while(pa!=pb):
+            pa = pHead2 if pa is None else pa.next
+            pb = pHead1 if pb is None else pb.next
+        return pa
+```
+
 32.第一个只出现一次的字符位置
+
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def FirstNotRepeatingChar(self, s):
+        # write code here
+        queue = []
+        memories = dict()
+        for idx,char in enumerate(s):
+            if char not in memories:
+                queue.append(idx)
+                memories[char]=0
+            memories[char]+=1
+            while(queue and memories[s[queue[0]]]>1):
+                queue.pop(0)
+        return queue[0] if queue else -1
+```
 
 33.数组中的逆序对
 
+```
+import bisect
+class Solution:
+    def InversePairs(self, data):
+        data.reverse()
+        L = []
+        ret = 0
+        for d in data:
+            pos = bisect.bisect_left(L,d)
+            L.insert(pos,d)
+            ret+= pos
+            ret = ret % 1000000007
+        return ret % 1000000007
+```
+
 34.连续子数组的最大和
+
+```
+class Solution:
+    def FindGreatestSumOfSubArray(self, array):
+        # write code here
+        if len(array)==1:
+            return array[0]
+        cur = pos = array[0]
+        for i in range(1,len(array)):
+            pos = max(pos+array[i],array[i])
+            cur = max(cur,pos)
+        return cur
+```
 
 35.最小的K个数
 
+```
+import heapq
+class Solution:
+    def GetLeastNumbers_Solution(self, tinput, k):
+        # write code here
+        heaps = []
+        ret = []
+        for num in tinput:
+            heapq.heappush(heaps,num)
+        if k>len(heaps):
+            return []
+        for i in range(k):
+            ret.append(heapq.heappop(heaps))
+        return ret
+
+```
+
 36.数组中出现次数超过一半的数字
+
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def MoreThanHalfNum_Solution(self, numbers):
+        # write code here
+        if numbers == []:
+            return 0
+        val,cnt = None,0
+        for num in numbers:
+            if cnt==0:
+                val,cnt = num,1
+            elif val == num:
+                cnt+=1
+            else:
+                cnt-=1
+        return val if numbers.count(val)*2>len(numbers) else 0
+```
 
 37.整数中1出现的次数（从1到n整数中1出现的次数）
 
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def NumberOf1Between1AndN_Solution(self, n):
+        # write code here
+        if n<1:  return 0
+        if n==1: return 1
+        last,ans,pos = 0,0,1
+        while(n):
+            num = n%10
+            n = n/10
+            ans += pos*n
+            if num>1:
+                ans+=pos
+            elif num==1:
+                ans+=(last+1)
+            last = last+num*pos
+            pos*=10
+        return ans
+```
+
 38.把数组排成最小的数
+
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def PrintMinNumber(self, numbers):
+        # write code here
+        if not numbers:return ""
+        numbers = list(map(str,numbers))
+        numbers.sort(cmp=lambda x,y:cmp(x+y,y+x))
+        return '0' if numbers[0]=='0' else ''.join(numbers)
+```
 
 39.数组中重复的数字
 
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    # 这里要特别注意~找到任意重复的一个值并赋值到duplication[0]
+    # 函数返回True/False
+    def duplicate(self, numbers, duplication):
+        # write code here
+        dup = dict()
+        for num in numbers:
+            if num not in dup:
+                dup[num] = True
+            else:
+                duplication[0]=num
+                return True
+```
+
 40.构建乘积数组
+
+```
+class Solution:
+    def multiply(self, A):
+        # write code here
+        size = len(A)
+        B = [1]*size
+        for i in range(1,size):
+            B[i] = B[i-1]*A[i-1]
+        tmp = 1
+        for i in range(size-2,-1,-1):
+            tmp = tmp*A[i+1]
+            B[i] = B[i]*tmp
+        return B
+```
 
 =======
 
 41.二维数组中的查找
 
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    # array 二维列表
+    def Find(self, target, array):
+        # write code here
+        if len(array)==0 or len(array[0])==0:
+            return False
+        i = 0
+        j = len(array[0])-1
+        while(i<len(array) and j>=0):
+            if array[i][j]==target:
+                return True
+            elif array[i][j]>target:
+                j-=1
+            else:
+                i+=1
+        return False
+```
+
 42.扑克牌顺子
+
+```
+class Solution:
+    def IsContinuous(self, numbers):
+        # write code here
+        if not numbers:
+            return 0
+        numbers.sort()
+        zeros = numbers.count(0)
+        for i, v in enumerate(numbers[:-1]):
+            if v!=0:
+                if numbers[i+1]==v:
+                    return False
+                zeros -= (numbers[i+1]-numbers[i]-1)
+                if zeros<0:
+                    return False
+        return True
+```
 
 43.孩子们的游戏(圆圈中最后剩下的数)
 
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def LastRemaining_Solution(self, n, m):
+        # write code here
+        if n<1: return -1
+        final,start = -1,0
+        cnt = [i for i in range(n)]
+        while cnt:
+            k = (start+m-1)%n
+            final = cnt.pop(k)
+            n-=1
+            start = k
+        return final 
+```
+
 44.正则表达式匹配
+
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    # s, pattern都是字符串
+    def __init__(self):
+        self.dic = {}
+    def match(self, s, p):
+        # write code here
+        if (s,p) in self.dic:
+            return self.dic[(s,p)]
+        if p == '':
+            return s==''
+        if len(p)==1 or p[1]!='*':
+            self.dic[(s[1:],p[1:])] = self.match(s[1:],p[1:])
+            return len(s)>0 and (p[0]=='.' or p[0]==s[0]) and self.dic[(s[1:],p[1:])]
+        while(len(s) and (p[0]=='.' or p[0]==s[0])):
+            self.dic[(s,p[2:])] = self.match(s,p[2:])
+            if self.match(s[:],p[2:]):
+                return True
+            s = s[1:]
+        self.dic[(s,p[2:])] = self.match(s,p[2:])
+        return self.dic[(s,p[2:])]
+```
 
 45.表示数值的字符串
 
+```
+pass
+```
+
 46.字符流中第一个不重复的字符
+
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    # 返回对应char
+    def __init__(self):
+        self.memory = dict()
+        self.queue = []
+
+    def FirstAppearingOnce(self):
+        # write code here
+        while len(self.queue) and self.memory[self.queue[0]]>1:
+            self.queue.pop(0)
+
+        return self.queue[0] if len(self.queue) else '#'
+    def Insert(self, char):
+        # write code here
+        if char not in self.memory:
+            self.memory[char]=0
+        self.memory[char]+=1
+        if self.memory[char]==1:
+            self.queue.append(char)
+```
 
 47.替换空格
 
+```
+pass
+```
+
 48.矩阵中的路径
 
+```
+pass
+```
+
 49.机器人的运动范围
+
+```
+# -*- coding:utf-8 -*-
+class Solution:
+    def movingCount(self, threshold, rows, cols):
+        # write code here
+        memories = set()
+        def dfs(i,j):
+            def judge(i,j):
+                return sum(map(int, list(str(i)))) + sum(map(int, list(str(j)))) <= threshold
+            if not judge(i,j) or (i,j) in memories:
+                return
+            memories.add((i,j))
+            if i != rows - 1:
+                dfs(i + 1, j)
+            if j != cols - 1:
+                dfs(i, j + 1)
+        dfs(0,0)
+        return len(memories)
+```
 
 50.求1+2+3+…+n(不用if for while等，不循环 不递归)
 
@@ -678,13 +970,56 @@ class Solution:
 
 51.不用加减乘除做加法
 
+不计进位的和为 a^b，进位就是 a&b 
+a+b = a^b + (a&b)<<1; 
+
+```java
+public class Solution {
+    public int Add(int a,int b) {
+        int unit = a ^ b;  
+        int carry_bit = a & b;  
+        while(carry_bit != 0) {  
+            int temp_a = unit;  
+            int temp_b = carry_bit << 1;  
+            unit = temp_a ^ temp_b;  
+            carry_bit = temp_a & temp_b;  
+        }  
+        return unit;  
+    }
+}
+```
+
 52.二叉搜索树与双向链表
+
+```
+class Solution:
+    def Convert(self, pRootOfTree):
+        # write code here
+        if pRootOfTree == None:
+            return pRootOfTree
+        if pRootOfTree.left == None and pRootOfTree.right == None:
+            return pRootOfTree
+        left = self.Convert(pRootOfTree.left)
+        p = left
+        if left:
+            while(p.right):
+                p = p.right
+            p.right = pRootOfTree
+            pRootOfTree.left = p
+        right = self.Convert(pRootOfTree.right)
+        if right:
+            pRootOfTree.right = right
+            right.left = pRootOfTree
+        return left if left else pRootOfTree
+```
 
 53.复杂链表的复制
 
 54.字符串的排列
 
 55.二进制中1的个数
+
+[内部链接]()
 
 56.链表中倒数第k个结点
 
@@ -776,6 +1111,6 @@ def memoize(function):
     
 ```
 
-实现这个记忆化的装饰器可以对比如斐波那契数列 杨辉三角等递归的 确定性递归 进行缓存
+实现这个记忆化的装饰器可以对比如斐波那契数列 杨辉三角等递归的 确定性缓存
 
 
