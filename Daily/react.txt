@@ -1,0 +1,29 @@
+
+
+
+项目相关js库列表：
+
+webpack ： js开发环境和打包器
+babel ： es6 编译器
+react ： 当下非常火的显示框架
+react-router ： 与react搭配的前端路由器
+redux ： web应用的状态容器（定义了一套非常清晰的数据传递 流程）
+react-redux ： react 和 redux 的连接器
+redux-logger ： redux 的控制台 log 中间件
+redux-thunk： redux 的 thunk 中间件
+react-router-redux : react-router和 redux 配套使用的连接器
+immutable.js: js 持久化数据框架
+mock.js ： 用于产生模拟后台数据的框架
+jquery: 在项目中，我们仅使用它的非常通行的 ajax 功能
+
+
+
+connect方法做的事情是将state和dispatch绑定到Connect组件的参数上，然后Connect组件将你当前的App组件封装起来，使得App组件可以通过props获取到父组件Connect传递的state和props。
+
+这也就是为什么你可以在自己写的组件上面直接通过this.props访问到state和action。有的人是通过store去读取state和dispatch action，也是一样的道理。
+
+从connect方法的实现，我们看到了非常多react组件的影子，生命周期，props传递，context上下文。
+
+对比Provider组件：
+
+Provider是顶层组件的作用，将store作为上下文提供给全局共享，而Connect组件是局部组件，将某个react组件包装起来，传递指定的state和props给该组件访问。

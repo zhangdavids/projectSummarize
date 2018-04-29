@@ -1,0 +1,27 @@
+
+
+reduce(callback, initialValue)会传入两个变量。
+
+回调函数(callback)和初始值(initialValue)。假设函数它有个传入参数，prev和next,index和array。prev和next你是必须要了解的。
+
+一般来讲prev是从数组中第一个元素开始的，next是第二个元素。
+
+但是当你传入初始值(initialValue)后，第一个prev将是initivalValue，next将是数组中的第一个元素。
+
+
+箭头函数
+
+var materials = [
+  'Hydrogen',
+  'Helium',
+  'Lithium',
+  'Beryllium'
+];
+
+materials.map(function(material) { 
+  return material.length; 
+}); // [8, 6, 7, 9]
+
+materials.map((material) => {
+  return material.length;
+}); // [8, 6, 7, 9]
