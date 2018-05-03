@@ -60,7 +60,7 @@ def parse_file(filename):
             for i in range(len(priorities)):
                 priorities[i] = priorities[i].strip()
                 
-                people.append((name, priorities))
+            people.append((name, priorities))
                 
     f.close()
     return people
@@ -74,6 +74,58 @@ def print_pairings(men):
 
 if __name__ == "__main__":
     pass
+    verbose = len(sys.argv)>3
+    
+    # initialize dictionary of men
+    menlist = parseFile(sys.argv[1])
+    men = dict()
+    for person in menlist:
+        men[person[0]] = Man(person[0],person[1])
+    unwedMen = men.keys()
+    
+    # initialize dictionary of women
+    womenlist = parse_file(sys.argv[2])
+    women = dict()
+    for person in womenlist:
+        women[person[0]] = Woman(person[0], person[1])
+
+
+    ############################### the real algorithm ##################################
+    while unwedMen:
+        m = men[unwedMen[0]]             # pick arbitrary unwed man
+        w = women[m.next_proposal()]      # identify highest-rank woman to which
+                                         #    m has not yet proposed
+        if verbose:  
+            print(m.name, 'proposes to', w.name)
+
+        if w.evaluate_proposal(m.name):
+            if verbose: 
+                print('  ', w.name, 'accepts the proposal')
+            
+            if w.partner:
+                # previous partner is getting dumped
+                mOld = men[w.partner]
+                mOld.partner = None
+                unwedMen.append(mOld.name)
+
+            unwedMen.remove(m.name)
+            w.partner = m.name
+            m.partner = w.name
+        else:
+            if verbose: 
+                print('  ', w.name, 'rejects the proposal')
+
+        if verbose:
+            print("Tentative Pairings are as follows:")
+            print_pairings(men)
+            print()
+    #####################################################################################
+
+
+
+    # we should be done
+    print("Final Pairings are as follows:")
+    print_pairings(men)
           
     
 
