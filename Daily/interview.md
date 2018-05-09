@@ -24,3 +24,25 @@
 6.	单例模式 -----------
 7.	staticmethod、classmethod,property
 8.	经典类和新式类
+
+
+###	Web框架部分
+1.	Http协议
+2.	列举Http请求方法？
+3.	列举Http常用请求头？
+4.	列举Http状态码？
+5.	Django请求生命周期？
+6.	什么是wsgi？
+
+### Django
+
+1. Django信号作用？应用？
+2. 有没有用过单元测试？
+3. Django 中间件作用？应用？
+4. Django处理并发？
+5. FBV和CBV
+6. cookie和session区别以及实现原理？
+7. 你怎么理解ORM ORM相关操作
+- 操作数据库简单
+- 创建数据库 和修改数据库简单
+- 速度 比 原生SQL慢 对象和类需要转换成SQL运行
