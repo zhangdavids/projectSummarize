@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{% block title %}{{ title }}{% endblock %}</title>
+</head>
+<body>
+<header>
+<h1>{{ self.title() }}</h1>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/sites">Sites</a></li>
+<li>
+	{% if current_user.is_anonymous() %}
+	<a href="{{url_for('users.register')}}">Register</a> / <a href="{{url_for('users.login')}}">Log In</a>
+	{% else %}
+	Logged in as {{current_user.name}} <a href="{{url_for('users.logout')}}">Logout</a>
+	{% endif %}
+</li>
+</ul>
+</nav>
+</header>
+{% set messages = get_flashed_messages() %}
+{% if messages %}
+<section>
+	{% for message in messages %}
+	<p>{{ message }}</p>
+	{% endfor %}
+</section>
+{% endif %}
+<section>
+{% block content %}{% endblock %}
+</section>
+<footer>
+<p>You are viewing the application as it was set up for Part #{{ constants.TUTORIAL_PART }}</p>
+</footer>
+</body>
+</html>
