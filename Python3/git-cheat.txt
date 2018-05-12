@@ -31,7 +31,7 @@ git mergetool
 
 
 
-UODO
+UNDO
 
 git reset --hard head
 checkout head <file>
