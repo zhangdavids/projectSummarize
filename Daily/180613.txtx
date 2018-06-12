@@ -1,0 +1,6 @@
+Django中使用 CSRF 防护
+
+GET 请求不要用有副作用。任何处理 GET 请求的代码对资源的访问都一定要是“只读“的。
+启用 django.middleware.csrf.CsrfViewMiddleware 中间件
+使用POST 表单元素时，加上{% csrf_token %}
+渲染模块使用 RequestContext。RequestContext 会处理 csrf_token , 从而自动为表单添加一个名为 csrfmiddlewaretoken 的 input
