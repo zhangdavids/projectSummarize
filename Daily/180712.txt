@@ -1,0 +1,8 @@
+
+
+django view 到 js
+数据不传给html用，要传给js用，
+需要注意两点：
+
+views.py中返回的函数中的值要用 json.dumps() 处理
+在网页上要加一个 safe 过滤器。
