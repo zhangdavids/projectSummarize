@@ -2,7 +2,13 @@
 ## asyncio + aiohttp
 ## async/await是Python提供的异步编程API，而asyncio只是一个利用 async/await API进行异步编程的框架
 
+import time
+import requests
 import aiohttp
+from concurrent.futures import ThreadPoolExecutor
+
+NUMBERS = range(12)
+URL = 'http://httpbin.org/get?a={}'
 
 
 async def fetch_async(a):
