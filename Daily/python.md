@@ -1,6 +1,38 @@
 1.斐波那契
 
 
+```
+def memoize(f):
+    """
+    计划性的缓存
+    """
+    call_cache = dict()
+
+    def memoized(argument):
+        try:
+            return call_cache[argument]
+        except KeyError:
+            return call_cache.setdefault(argument, f(argument))
+
+    return memoized
+
+
+@memoize
+def fibonacci(n):
+    if n < 3:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+
+
+if __name__ == '__main__':
+
+    print(fibonacci(10))
+    print(fibonacci(20))
+
+```
+
+
 2.魔法特性
 
     __new__是一个静态方法,而__init__是一个实例方法.
@@ -19,9 +51,14 @@
     必须有一个内嵌函数
     内嵌函数必须引用外部函数中的变量
     外部函数的返回值必须是内嵌函数
+    
+    闭包是延迟绑定
 
 
 4.默认参数給空列表问题
+
+    默认的list只在函数定义的时候被创建一次。 之后不指定list参数地调用extendList函数时，使用的都是同一个list。
+    这是因为带默认参数的表达式是在函数定义的时候被计算的，而不是在函数调用时。
 
 
 5.2和3的差异
@@ -106,6 +143,19 @@
 
 
 9. python常用模块
+
+        argparse 命令解析 用来替代optparse的命令行解析库。如果你考虑用更直观的，推荐docopt
+        collections 
+        functools
+        glob 文件名的shell匹配
+        multiprocessing 多进程
+        threading 多线程
+        os
+        queue 队列
+        SimpleHTTPServer
+        subprocess
+
+    
 
 
 
