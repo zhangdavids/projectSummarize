@@ -1,0 +1,4 @@
+
+
+class AbstractCollection(object):
+    pass
